@@ -1,7 +1,7 @@
 import contextlib
 from typing import Literal, Optional
 
-from .models import ThonProxy
+from tooler.models import ThonProxy
 
 
 class ProxyParser:
@@ -43,8 +43,8 @@ class ProxyParser:
     def port(self) -> int:
         try:
             return int(self.splitted[2])
-        except ValueError:
-            raise ValueError(f"Порт {self.splitted[2]} должен быть числом!")
+        except (ValueError, TypeError, IndexError):
+            raise ValueError("Порт должен быть целым числом!")
 
     @property
     def user(self) -> Optional[str]:
@@ -58,10 +58,15 @@ class ProxyParser:
 
     @property
     def url(self) -> str:
-        if not self.user and not self.pswd:
+        if not self.user or not self.pswd:
             return f"{self.type}://{self.ip}:{self.port}"
         return f"{self.type}://{self.user}:{self.pswd}@{self.ip}:{self.port}"
 
     @property
     def thon(self) -> ThonProxy:
         return ThonProxy(self.type, self.ip, self.port, self.user, self.pswd)
+
+
+if __name__ == "__main__":
+    print(ProxyParser("http:addr:1000:user:pswd").thon)
+    print(ProxyParser("http:addr:1000:user:pswd").url)
