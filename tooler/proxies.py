@@ -1,4 +1,5 @@
 import contextlib
+from dataclasses import asdict
 from typing import Literal, Optional
 
 from tooler.models import ThonProxy, ProxyDrony
@@ -65,6 +66,10 @@ class ProxyParser:
     @property
     def thon(self) -> ThonProxy:
         return ThonProxy(self.type, self.ip, self.port, self.user, self.pswd)
+
+    @property
+    def asdict_thon(self) -> dict:
+        return asdict(self.thon)
 
     @property
     def drony(self) -> ProxyDrony:
