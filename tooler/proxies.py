@@ -1,7 +1,7 @@
 import contextlib
 from typing import Literal, Optional
 
-from tooler.models import ThonProxy
+from tooler.models import ThonProxy, ProxyDrony
 
 
 class ProxyParser:
@@ -65,6 +65,10 @@ class ProxyParser:
     @property
     def thon(self) -> ThonProxy:
         return ThonProxy(self.type, self.ip, self.port, self.user, self.pswd)
+
+    @property
+    def drony(self) -> ProxyDrony:
+        return ProxyDrony(self.ip, self.port, self.user, self.pswd, self.type)
 
 
 if __name__ == "__main__":
