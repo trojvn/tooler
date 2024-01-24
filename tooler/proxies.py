@@ -1,7 +1,12 @@
-from typing import Literal
+import contextlib
+from typing import Literal, Optional
+
+from .models import ThonProxy
 
 
 class ProxyParser:
+    """Парсер проксей, если что-то не так, то райзит ValueError"""
+
     def __init__(self, proxy: str, splitter: str = ":"):
         self.__proxy = proxy
         self.__splitter = splitter
@@ -27,5 +32,36 @@ class ProxyParser:
             return "socks5"
         return "http"
 
-    def __main(self):
-        """Точка входа"""
+    @property
+    def ip(self) -> str:
+        try:
+            return self.splitted[1]
+        except IndexError:
+            raise ValueError("IP не задан!")
+
+    @property
+    def port(self) -> int:
+        try:
+            return int(self.splitted[2])
+        except ValueError:
+            raise ValueError(f"Порт {self.splitted[2]} должен быть числом!")
+
+    @property
+    def user(self) -> Optional[str]:
+        with contextlib.suppress(IndexError):
+            return self.splitted[3]
+
+    @property
+    def pswd(self) -> Optional[str]:
+        with contextlib.suppress(IndexError):
+            return self.splitted[4]
+
+    @property
+    def url(self) -> str:
+        if not self.user and not self.pswd:
+            return f"{self.type}://{self.ip}:{self.port}"
+        return f"{self.type}://{self.user}:{self.pswd}@{self.ip}:{self.port}"
+
+    @property
+    def thon(self) -> ThonProxy:
+        return ThonProxy(self.type, self.ip, self.port, self.user, self.pswd)
