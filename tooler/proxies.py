@@ -75,6 +75,12 @@ class ProxyParser:
     def drony(self) -> ProxyDrony:
         return ProxyDrony(self.ip, self.port, self.user, self.pswd, self.type)
 
+    @property
+    def check(self) -> str:
+        if not self.user or not self.pswd:
+            return f"{self.type}:{self.ip}:{self.port}"
+        return f"{self.type}:{self.ip}:{self.port}:{self.user}"
+
 
 if __name__ == "__main__":
     print(ProxyParser("http:addr:1000:user:pswd").thon)
