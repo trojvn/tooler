@@ -79,7 +79,7 @@ class ProxyParser:
     def check(self) -> str:
         if not self.user or not self.pswd:
             return f"{self.type}:{self.ip}:{self.port}"
-        return f"{self.type}:{self.ip}:{self.port}:{self.user}"
+        return f"{self.type}:{self.ip}:{self.port}:{self.user}:{self.pswd}"
 
 
 if __name__ == "__main__":
