@@ -25,12 +25,14 @@ class ProxyParser:
         return self.proxy.split(self.splitter)
 
     @property
-    def type(self) -> Literal["http", "socks5"]:
+    def type(self) -> Literal["http", "socks5", "ss"]:
         p_type = self.splitted[0]
         if p_type == "http":
             return "http"
         elif p_type == "socks5":
             return "socks5"
+        elif p_type == "ss":
+            return "ss"
         return "http"
 
     @property
@@ -59,6 +61,8 @@ class ProxyParser:
 
     @property
     def url(self) -> str:
+        if self.type == "ss":
+            return ""
         if not self.user or not self.pswd:
             return f"{self.type}://{self.ip}:{self.port}"
         return f"{self.type}://{self.user}:{self.pswd}@{self.ip}:{self.port}"
