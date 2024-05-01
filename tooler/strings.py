@@ -1,15 +1,19 @@
-import random
-import string
+from string import digits, ascii_letters
+from random import choice
+
+
+def has_numbers(input_string: str) -> bool:
+    return any(char.isdigit() for char in input_string)
+
+
+def has_chars(input_string: str) -> bool:
+    return any(char for char in input_string if char in "!@#")
 
 
 def generate_random_string(length: int, punctuation: bool) -> str:
     """Генерирует строку из ascii_letters + digits + !@#"""
-    characters = string.ascii_letters + string.digits
-    random_string = "".join(random.choice(characters) for _ in range(length))
-    rndm = "".join(random.choice("!@#") for _ in range(random.randint(1, 3)))
-    random_string += rndm if punctuation else ""
-    return random_string
-
-
-if __name__ == "__main__":
-    print(generate_random_string(12, True))
+    characters = ascii_letters + digits + "!@#" if punctuation else ""
+    while True:
+        random_string = "".join(choice(characters) for _ in range(length))
+        if has_numbers(random_string) and has_chars(random_string):
+            return random_string
