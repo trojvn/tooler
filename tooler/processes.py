@@ -1,4 +1,3 @@
-from .paths import str_to_path
 from pathlib import Path
 import os
 
@@ -8,10 +7,7 @@ class Process:
         pass
 
     @staticmethod
-    def kill_by_path(path: str | Path):
-        path = str_to_path(path)
-        if not path.is_file():
-            return
+    def kill_by_path(path: str):
         cmd = f"""WMIC Process Where "ExecutablePath='{path}'" """
         cmd += "Call Terminate"
         tmp_file = Path("tmp.bat")
