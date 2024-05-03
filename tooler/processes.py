@@ -1,4 +1,4 @@
-from paths import str_to_path
+from .paths import str_to_path
 from pathlib import Path
 import os
 
