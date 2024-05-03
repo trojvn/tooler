@@ -17,5 +17,5 @@ class Process:
         tmp_file = Path("tmp.bat")
         with tmp_file.open("w", encoding="utf-8") as f:
             f.write(cmd)
-        os.system(tmp_file)
+        os.system(str(tmp_file))
         os.remove(tmp_file)
