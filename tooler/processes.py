@@ -1,6 +1,6 @@
-from pathlib import Path
-from subprocess import run, PIPE
 import os
+from pathlib import Path
+from subprocess import PIPE, run
 
 
 class Process:
@@ -13,9 +13,9 @@ class Process:
         tmp_file = Path("tmp.bat")
         with tmp_file.open("w", encoding="utf-8") as f:
             f.write(cmd)
-        run(cmd, stdout=PIPE, stderr=PIPE)
+        run(cmd, stdout=PIPE, stderr=PIPE, check=False)
         os.remove(tmp_file)
 
     def kill_by_name(self):
         cmd = f"taskkill /f /im {self.__process_path_or_name}"
-        run(cmd, stdout=PIPE, stderr=PIPE)
+        run(cmd, stdout=PIPE, stderr=PIPE, check=False)

@@ -2,7 +2,7 @@ import contextlib
 from dataclasses import asdict
 from typing import Literal, Optional
 
-from tooler.models import ThonProxy, ProxyDrony
+from tooler.models import ProxyDrony, ThonProxy
 
 
 class ProxyParser:
@@ -39,15 +39,15 @@ class ProxyParser:
     def ip(self) -> str:
         try:
             return self.splitted[1]
-        except IndexError:
-            raise ValueError("IP не задан!")
+        except IndexError as e:
+            raise ValueError("IP не задан!") from e
 
     @property
     def port(self) -> int:
         try:
             return int(self.splitted[2])
-        except (ValueError, TypeError, IndexError):
-            raise ValueError("Порт должен быть целым числом!")
+        except (ValueError, TypeError, IndexError) as e:
+            raise ValueError("Порт должен быть целым числом!") from e
 
     @property
     def user(self) -> Optional[str]:
