@@ -1,46 +1,42 @@
 import contextlib
 from dataclasses import asdict
-from typing import Literal, Optional
+from typing import Literal
 
-from tooler.models import ProxyDrony, ThonProxy
+from .models import ProxyDrony, ThonProxy
 
 
 class ProxyParser:
     """Парсер проксей, если что-то не так, то райзит ValueError"""
 
     def __init__(self, proxy: str, splitter: str = ":"):
-        self.__proxy = proxy
-        self.__splitter = splitter
-
-    @property
-    def proxy(self) -> str:
-        return self.__proxy
-
-    @property
-    def splitter(self) -> str:
-        return self.__splitter
+        proxy = proxy.replace("https:", "http:")
+        self.__proxy, self.__splitter = proxy, splitter
+        self.__prefixes = ("http", "socks5", "ss")
 
     @property
     def splitted(self) -> list[str]:
-        return self.proxy.split(self.splitter)
+        return self.__proxy.split(self.__splitter)
 
     @property
     def type(self) -> Literal["http", "socks5", "ss"]:
         p_type = self.splitted[0]
-        if p_type == "http":
-            return "http"
-        elif p_type == "socks5":
-            return "socks5"
-        elif p_type == "ss":
-            return "ss"
+        match p_type:
+            case "http":
+                return "http"
+            case "socks5":
+                return "socks5"
+            case "ss":
+                return "ss"
         return "http"
 
     @property
     def ip(self) -> str:
-        try:
-            return self.splitted[1]
-        except IndexError as e:
-            raise ValueError("IP не задан!") from e
+        if self.__proxy.startswith(self.__prefixes):
+            try:
+                return self.splitted[1]
+            except IndexError as e:
+                raise ValueError("IP не задан!") from e
+        return self.splitted[0]
 
     @property
     def port(self) -> int:
@@ -50,12 +46,12 @@ class ProxyParser:
             raise ValueError("Порт должен быть целым числом!") from e
 
     @property
-    def user(self) -> Optional[str]:
+    def user(self) -> str | None:
         with contextlib.suppress(IndexError):
             return self.splitted[3]
 
     @property
-    def pswd(self) -> Optional[str]:
+    def pswd(self) -> str | None:
         with contextlib.suppress(IndexError):
             return self.splitted[4]
 
