@@ -2,7 +2,7 @@ from tooler import ProxyParser
 
 
 def test_proxy_parser():
-    proxy = "http://username:password@1.1.1.1:80"
+    proxy = "http:1.1.1.1:80:user:pswd"
     parser = ProxyParser(proxy)
     assert parser.type == "http"
     assert parser.ip == "1.1.1.1"
