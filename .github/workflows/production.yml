@@ -18,7 +18,7 @@ jobs:
 
   clean:
     runs-on: self-hosted
-    needs: [run]
+    needs: [build]
     steps:
       - name: Clean Docker After Run
         run: docker image prune
