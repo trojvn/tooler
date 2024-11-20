@@ -16,6 +16,7 @@ class ProxyParser:
 
     @property
     def splitted(self) -> list[str]:
+        _proxy = self.__proxy
         for url_prefix in self.__url_prefixes:
             if not self.__proxy.startswith(url_prefix):
                 continue
@@ -25,8 +26,7 @@ class ProxyParser:
                 _splitted = _proxy.split("@", maxsplit=1)
                 _creds = _splitted[0].replace(_url_prefix, "", 1)
                 return f"{_url_prefix}{_splitted[-1]}:{_creds}".split(":")
-
-        return self.__proxy.split(self.__splitter)
+        return _proxy.split(self.__splitter)
 
     @property
     def type(self) -> Literal["http", "socks5", "ss"]:
