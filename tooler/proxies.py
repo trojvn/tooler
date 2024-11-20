@@ -24,7 +24,8 @@ class ProxyParser:
             if "@" in _proxy:
                 _splitted = _proxy.split("@", maxsplit=1)
                 _creds = _splitted[0].replace(_url_prefix, "", 1)
-                return [_url_prefix, _creds] + _splitted[1].split(self.__splitter)
+                return f"{_url_prefix}{_splitted[-1]}:{_creds}".split(":")
+
         return self.__proxy.split(self.__splitter)
 
     @property
