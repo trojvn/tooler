@@ -35,7 +35,8 @@ class ProxyParser:
             try:
                 return self.splitted[1]
             except IndexError as e:
-                raise ValueError("IP не задан!") from e
+                _message = f"[ProxyParser] Не найден IP в прокси: {self.__proxy}"
+                raise ValueError(_message) from e
         return self.splitted[0]
 
     @property
@@ -43,7 +44,8 @@ class ProxyParser:
         try:
             return int(self.splitted[2])
         except (ValueError, TypeError, IndexError) as e:
-            raise ValueError("Порт должен быть целым числом!") from e
+            _message = f"[ProxyParser] Некорректно задан порт в прокси: {self.__proxy}"
+            raise ValueError(_message) from e
 
     @property
     def user(self) -> str | None:
@@ -80,8 +82,3 @@ class ProxyParser:
         if not self.user or not self.pswd:
             return f"{self.type}:{self.ip}:{self.port}"
         return f"{self.type}:{self.ip}:{self.port}:{self.user}:{self.pswd}"
-
-
-if __name__ == "__main__":
-    print(ProxyParser("http:addr:1000:user:pswd").thon)
-    print(ProxyParser("http:addr:1000:user:pswd").url)
