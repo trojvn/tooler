@@ -12,9 +12,18 @@ class ProxyParser:
         proxy = proxy.replace("https:", "http:")
         self.__proxy, self.__splitter = proxy, splitter
         self.__prefixes = ("http", "socks5", "ss")
+        self.__url_prefixes = ("http://", "socks5://", "ss://")
 
     @property
     def splitted(self) -> list[str]:
+        for url_prefix in self.__url_prefixes:
+            if not self.__proxy.startswith(url_prefix):
+                continue
+            # http://
+            _url_prefix = url_prefix.replace("//", "")
+            _proxy = self.__proxy.replace(url_prefix, _url_prefix, 1)
+            if "@" in _proxy:
+                return ":".join(_proxy.split("@", maxsplit=1)).split(":")
         return self.__proxy.split(self.__splitter)
 
     @property
