@@ -41,10 +41,15 @@ class ProxyParser:
 
     @property
     def port(self) -> int:
+        _message = f"[ProxyParser] Некорректно задан порт в прокси: {self.__proxy}"
+        if self.__proxy.startswith(self.__prefixes):
+            try:
+                return int(self.splitted[2])
+            except (ValueError, TypeError, IndexError) as e:
+                raise ValueError(_message) from e
         try:
-            return int(self.splitted[2])
+            return int(self.splitted[1])
         except (ValueError, TypeError, IndexError) as e:
-            _message = f"[ProxyParser] Некорректно задан порт в прокси: {self.__proxy}"
             raise ValueError(_message) from e
 
     @property
