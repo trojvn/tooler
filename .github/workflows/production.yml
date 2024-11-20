@@ -1,0 +1,39 @@
+name: production
+on: push
+
+jobs:
+  build:
+    runs-on: debian:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: docker build -t tooler:latest .
+
+  kill:
+    runs-on: debian:latest
+    continue-on-error: true
+    steps:
+      - name: Kill
+        run: docker kill tooler
+
+  remove:
+    runs-on: debian:latest
+    needs: [kill]
+    continue-on-error: true
+    steps:
+      - name: Remove
+        run: docker rm tooler
+
+  run:
+    runs-on: debian:latest
+    needs: [build, remove]
+    steps:
+      - name: Run
+        run: docker run -d -e --name tooler tooler
+
+  clean:
+    runs-on: debian:latest
+    needs: [run]
+    steps:
+      - name: Clean Docker After Run
+        run: docker system prune -af --volumes
