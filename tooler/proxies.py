@@ -66,12 +66,12 @@ class ProxyParser:
     @property
     def user(self) -> str | None:
         with contextlib.suppress(IndexError):
-            return self.splitted[3]
+            return self.splitted[-2]
 
     @property
     def pswd(self) -> str | None:
         with contextlib.suppress(IndexError):
-            return self.splitted[4]
+            return self.splitted[-1]
 
     @property
     def url(self) -> str:
