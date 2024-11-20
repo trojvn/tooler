@@ -19,11 +19,12 @@ class ProxyParser:
         for url_prefix in self.__url_prefixes:
             if not self.__proxy.startswith(url_prefix):
                 continue
-            # http://
             _url_prefix = url_prefix.replace("//", "")
             _proxy = self.__proxy.replace(url_prefix, _url_prefix, 1)
             if "@" in _proxy:
-                return ":".join(_proxy.split("@", maxsplit=1)).split(":")
+                _splitted = _proxy.split("@", maxsplit=1)
+                _creds = _splitted[0].replace(_url_prefix, "", 1)
+                return [_url_prefix, _creds] + _splitted[1].split(self.__splitter)
         return self.__proxy.split(self.__splitter)
 
     @property
