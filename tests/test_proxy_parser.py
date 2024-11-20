@@ -7,5 +7,5 @@ def test_proxy_parser():
     assert parser.type == "http"
     assert parser.ip == "1.1.1.1"
     assert parser.port == 80
-    assert parser.user == "username"
-    assert parser.pswd == "password"
+    assert parser.user == "user"
+    assert parser.pswd == "pswd"
