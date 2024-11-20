@@ -31,9 +31,9 @@ jobs:
       - name: Run
         run: docker run --name tooler tooler
 
-  clean:
-    runs-on: self-hosted
-    needs: [run]
-    steps:
-      - name: Clean Docker After Run
-        run: docker system prune -af --volumes
+  # clean:
+  #   runs-on: self-hosted
+  #   needs: [run]
+  #   steps:
+  #     - name: Clean Docker After Run
+  #       run: docker system prune -af --volumes
