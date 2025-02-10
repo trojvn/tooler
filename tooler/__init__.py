@@ -1,6 +1,7 @@
 from .paths import move_item, remove_item, str_to_path
 from .processes import Process
 from .proxies import ProxyParser
+from .proxy_parser.from_url import ProxyParserFromUrl
 from .strings import generate_random_string
 
 __all__ = [
@@ -10,4 +11,5 @@ __all__ = [
     "Process",
     "ProxyParser",
     "generate_random_string",
+    "ProxyParserFromUrl",
 ]

@@ -4,18 +4,11 @@ from typing import Literal
 
 @dataclass
 class ThonProxy:
+    """Тип для прокси, который используется в Thon"""
+
     proxy_type: Literal["http", "socks5"] | str
     addr: str
     port: int
-    username: str | None
-    password: str | None
+    username: str | None = None
+    password: str | None = None
     rdns: bool = True
-
-
-@dataclass
-class ProxyDrony:
-    hostname: str
-    port: int
-    user: str | None
-    pswd: str | None
-    type: str
